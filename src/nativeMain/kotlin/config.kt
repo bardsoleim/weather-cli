@@ -4,10 +4,14 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString
-import platform.posix.*
+import platform.posix.fclose
+import platform.posix.fgets
+import platform.posix.fopen
+import platform.posix.fputs
+import platform.posix.getenv
 
 @OptIn(ExperimentalForeignApi::class)
-private val CONFIG_DIR  get() = "${getenv("HOME")?.toKString() ?: "~"}/.config/weather-cli"
+private val CONFIG_DIR  get() = "${getenv("HOME")?.toKString() ?: getenv("USERPROFILE")?.toKString() ?: "~"}/.config/weather-cli"
 private val CONFIG_FILE get() = "$CONFIG_DIR/config"
 
 /** Reads the saved default city, or null if none is set. */
@@ -26,9 +30,8 @@ fun readDefaultCity(): String? {
 /** Saves [city] as the default city config. */
 @OptIn(ExperimentalForeignApi::class)
 fun saveDefaultCity(city: String) {
-    mkdir(CONFIG_DIR, 0b111_101_101u) // 0755
+    makeDir(CONFIG_DIR)
     val f = fopen(CONFIG_FILE, "w") ?: error("Could not open config file for writing: $CONFIG_FILE")
     fputs("default_city=$city\n", f)
     fclose(f)
 }
-
