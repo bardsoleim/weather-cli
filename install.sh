@@ -13,15 +13,38 @@ die()     { echo -e "${RED}${BOLD}✗  $*${RESET}" >&2; exit 1; }
 
 command -v curl >/dev/null 2>&1 || die "curl is required but not installed."
 
-info "Fetching latest release..."
+# ── Detect OS / arch ──────────────────────────────────────────────────────────
+OS="$(uname -s)"
+ARCH="$(uname -m)"
+
+case "$OS" in
+  Linux)
+    case "$ARCH" in
+      x86_64) ASSET="weather-linux-x64" ;;
+      *) die "Unsupported Linux architecture: $ARCH (only x86_64 is supported)" ;;
+    esac
+    ;;
+  Darwin)
+    case "$ARCH" in
+      x86_64)  ASSET="weather-macos-x64" ;;
+      arm64)   ASSET="weather-macos-arm64" ;;
+      *) die "Unsupported macOS architecture: $ARCH" ;;
+    esac
+    ;;
+  *) die "Unsupported OS: $OS (only Linux and macOS are supported)" ;;
+esac
+
+info "Detected: $OS $ARCH → downloading $ASSET"
+
+# ── Fetch release URL ─────────────────────────────────────────────────────────
 DOWNLOAD_URL=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" \
-  | grep "browser_download_url.*weather.kexe" \
+  | grep "browser_download_url.*${ASSET}" \
   | cut -d '"' -f 4)
 
-[ -n "$DOWNLOAD_URL" ] || die "Could not find a release binary. Check https://github.com/${REPO}/releases"
+[ -n "$DOWNLOAD_URL" ] || die "Could not find release binary '$ASSET'. Check https://github.com/${REPO}/releases"
 
+# ── Download & install ────────────────────────────────────────────────────────
 mkdir -p "$INSTALL_DIR"
-
 info "Downloading binary..."
 curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
 chmod +x "$INSTALL_DIR/$BINARY_NAME"

@@ -11,7 +11,6 @@ repositories {
 }
 
 kotlin {
-    // Suppress default hierarchy template warning caused by the custom target name.
     applyDefaultHierarchyTemplate()
 
     linuxX64("linux") {
@@ -22,8 +21,24 @@ kotlin {
         }
     }
 
+    macosX64() {
+        binaries {
+            executable("weather") {
+                entryPoint = "weathercli.main"
+            }
+        }
+    }
+
+    macosArm64() {
+        binaries {
+            executable("weather") {
+                entryPoint = "weathercli.main"
+            }
+        }
+    }
+
     sourceSets {
-        val linuxMain by getting {
+        val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-core:3.1.3")
                 implementation("io.ktor:ktor-client-curl:3.1.3")

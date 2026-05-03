@@ -18,7 +18,7 @@ The script will:
 1. Download the latest pre-built binary from GitHub Releases
 2. Install it to `~/.local/bin/weather`
 
-**Requirements:** `curl` (almost certainly already installed)
+**Requirements:** `curl` (pre-installed on macOS; almost certainly already on Linux)
 
 ---
 
