@@ -15,11 +15,10 @@ curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install
 ```
 
 The script will:
-1. Clone this repo into a temporary directory
-2. Build the native binary with Gradle
-3. Install it to `~/.local/bin/weather`
+1. Download the latest pre-built binary from GitHub Releases
+2. Install it to `~/.local/bin/weather`
 
-**Requirements:** `git`, JDK 21+, `libcurl` (`sudo pacman -S curl jdk21-openjdk` on CachyOS/Arch)
+**Requirements:** `curl` (almost certainly already installed)
 
 ---
 

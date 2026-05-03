@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/.github/workflows/release.yml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/.github/workflows/release.yml" />
+              <option name="updatedContent" value="name: Release&#10;&#10;on:&#10;  push:&#10;    tags:&#10;      - 'v*'&#10;&#10;jobs:&#10;  build:&#10;    runs-on: ubuntu-latest&#10;&#10;    steps:&#10;      - uses: actions/checkout@v4&#10;&#10;      - uses: actions/setup-java@v4&#10;        with:&#10;          java-version: '21'&#10;          distribution: 'temurin'&#10;&#10;      - name: Install libcurl&#10;        run: sudo apt-get install -y libcurl4-openssl-dev&#10;&#10;      - name: Build native binary&#10;        run: ./gradlew linkWeatherReleaseExecutableLinux --no-daemon&#10;&#10;      - name: Upload to GitHub Release&#10;        uses: softprops/action-gh-release@v2&#10;        with:&#10;          files: build/bin/linux/weatherReleaseExecutable/weather.kexe&#10;        env:&#10;          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
