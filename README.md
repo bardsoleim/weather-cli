@@ -23,6 +23,14 @@ The script will:
 
 ---
 
+## Uninstall
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninstall.sh | bash
+```
+
+---
+
 ## Features
 
 - Live current conditions (temperature, feels-like, humidity, wind, pressure)
