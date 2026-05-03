@@ -29,7 +29,7 @@ case "$OS" in
       arm64) ASSET="weather-macos-arm64" ;;
       *) die "Unsupported macOS architecture: $ARCH (only Apple Silicon is supported)" ;;
     esac
-    INSTALL_DIR="/usr/local/bin"
+    INSTALL_DIR="$HOME/.local/bin"
     ;;
   *) die "Unsupported OS: $OS (only Linux and macOS are supported)" ;;
 esac
@@ -46,23 +46,22 @@ DOWNLOAD_URL=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest"
 # ── Download & install ────────────────────────────────────────────────────────
 mkdir -p "$INSTALL_DIR"
 info "Downloading binary..."
+curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
+chmod +x "$INSTALL_DIR/$BINARY_NAME"
 
-if [ "$OS" = "Darwin" ]; then
-    info "Installing to $INSTALL_DIR (requires sudo)..."
-    sudo curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
-    sudo chmod +x "$INSTALL_DIR/$BINARY_NAME"
-else
-    curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
-    chmod +x "$INSTALL_DIR/$BINARY_NAME"
-fi
-
-if [ "$OS" = "Linux" ] && ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
+if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
     echo ""
     echo -e "${BOLD}Note:${RESET} $INSTALL_DIR is not in your PATH."
-    echo "  bash/zsh → add to ~/.bashrc or ~/.zshrc:"
-    echo "    export PATH=\"\$HOME/.local/bin:\$PATH\""
-    echo "  fish      → run once:"
-    echo "    fish_add_path ~/.local/bin"
+    if [ "$OS" = "Darwin" ]; then
+        echo "  Adding it to ~/.zprofile automatically..."
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zprofile"
+        echo "  Done. Restart your terminal or run: source ~/.zprofile"
+    else
+        echo "  bash/zsh → add to ~/.bashrc or ~/.zshrc:"
+        echo "    export PATH=\"\$HOME/.local/bin:\$PATH\""
+        echo "  fish      → run once:"
+        echo "    fish_add_path ~/.local/bin"
+    fi
     echo ""
 fi
 

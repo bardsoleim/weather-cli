@@ -10,10 +10,7 @@ success() { echo -e "${GREEN}${BOLD}✓  $*${RESET}"; }
 die()     { echo -e "${RED}${BOLD}✗  $*${RESET}" >&2; exit 1; }
 
 OS="$(uname -s)"
-case "$OS" in
-  Darwin) INSTALL_DIR="/usr/local/bin" ;;
-  *)      INSTALL_DIR="$HOME/.local/bin" ;;
-esac
+INSTALL_DIR="$HOME/.local/bin"
 
 BINARY="$INSTALL_DIR/$BINARY_NAME"
 
@@ -23,11 +20,7 @@ if [ ! -f "$BINARY" ]; then
     die "weather-cli not found at $BINARY — nothing to uninstall."
 fi
 
-if [ "$OS" = "Darwin" ]; then
-    sudo rm "$BINARY"
-else
-    rm "$BINARY"
-fi
+rm "$BINARY"
 
 success "Removed $BINARY"
 success "weather-cli uninstalled."
