@@ -35,7 +35,7 @@ $UserPath = [Environment]::GetEnvironmentVariable("PATH", "User")
 if ($UserPath -notlike "*$InstallDir*") {
     Info "Adding $InstallDir to your PATH..."
     [Environment]::SetEnvironmentVariable("PATH", "$UserPath;$InstallDir", "User")
-    Info "Restart your terminal for the PATH change to take effect."
+    $env:PATH = "$env:PATH;$InstallDir"
 }
 
 Success "Installed! Open a new terminal and run: weather --help"
