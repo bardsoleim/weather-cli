@@ -20,6 +20,11 @@ curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install
 irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install.ps1 | iex
 ```
 
+**Windows** (Command Prompt / cmd.exe)
+```cmd
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install.ps1 | iex"
+```
+
 The script will download the latest pre-built binary and install it to `~/.local/bin/weather` (Linux/macOS) or `%USERPROFILE%\.local\bin\weather.exe` (Windows).
 
 **Requirements:** `curl` (Linux/macOS) or PowerShell 5+ (Windows, pre-installed)
@@ -36,6 +41,11 @@ curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninsta
 **Windows** (PowerShell)
 ```powershell
 irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninstall.ps1 | iex
+```
+
+**Windows** (Command Prompt / cmd.exe)
+```cmd
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninstall.ps1 | iex"
 ```
 
 ---
