@@ -6,6 +6,7 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString
 import platform.posix.*
 
+@OptIn(ExperimentalForeignApi::class)
 private val CONFIG_DIR  get() = "${getenv("HOME")?.toKString() ?: "~"}/.config/weather-cli"
 private val CONFIG_FILE get() = "$CONFIG_DIR/config"
 
