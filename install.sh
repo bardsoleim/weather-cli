@@ -26,9 +26,8 @@ case "$OS" in
     ;;
   Darwin)
     case "$ARCH" in
-      x86_64)  ASSET="weather-macos-x64" ;;
       arm64)   ASSET="weather-macos-arm64" ;;
-      *) die "Unsupported macOS architecture: $ARCH" ;;
+      *) die "Unsupported macOS architecture: $ARCH (only Apple Silicon is supported)" ;;
     esac
     ;;
   *) die "Unsupported OS: $OS (only Linux and macOS are supported)" ;;

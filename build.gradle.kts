@@ -21,13 +21,6 @@ kotlin {
         }
     }
 
-    macosX64() {
-        binaries {
-            executable("weather") {
-                entryPoint = "weathercli.main"
-            }
-        }
-    }
 
     macosArm64() {
         binaries {
