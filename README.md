@@ -8,6 +8,21 @@ No API key needed.
 
 ---
 
+## Install
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install.sh | bash
+```
+
+The script will:
+1. Clone this repo into a temporary directory
+2. Build the native binary with Gradle
+3. Install it to `~/.local/bin/weather`
+
+**Requirements:** `git`, JDK 21+, `libcurl` (`sudo pacman -S curl jdk21-openjdk` on CachyOS/Arch)
+
+---
+
 ## Features
 
 - Live current conditions (temperature, feels-like, humidity, wind, pressure)
@@ -88,4 +103,3 @@ src/linuxMain/kotlin/
 ## License
 
 MIT — see [LICENSE](LICENSE)
-
