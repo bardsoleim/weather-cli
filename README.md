@@ -42,23 +42,25 @@ curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninsta
 ## Usage
 
 ```
-weather [DAY] [--city <name>]
+weather [DAY] [--city <name>] [--set-default-city <name>]
 
-  DAY              Days ahead (0 = today, 1 = tomorrow, … up to 6). Default: 0
-  --city <name>    City name to look up (default: Bergen, Norway)
+  DAY                        Days ahead (0 = today, 1 = tomorrow, … up to 6). Default: 0
+  --city <name>              City name to look up
+  --set-default-city <name>  Save a city as your permanent default
 
 Options:
-  -h, --help       Show help and exit
+  -h, --help                 Show help and exit
 ```
 
 ### Examples
 
 ```sh
-weather                           # today's forecast for Bergen, Norway
-weather 1                         # tomorrow for Bergen, Norway
-weather --city Oslo               # today for Oslo
-weather 2 --city "New York"       # 2 days ahead for New York
-weather 3 --city Tokyo            # 3 days ahead for Tokyo
+weather                                  # today's forecast for your default city
+weather 1                                # tomorrow for your default city
+weather --city Oslo                      # today for Oslo
+weather 2 --city "New York"              # 2 days ahead for New York
+weather 3 --city Tokyo                   # 3 days ahead for Tokyo
+weather --set-default-city Oslo          # save Oslo as your default city
 ```
 
 ---

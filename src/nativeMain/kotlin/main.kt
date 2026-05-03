@@ -19,19 +19,28 @@ private fun err(msg: String) = fprintf(stderr, "%s\n", msg)
 fun main(args: Array<String>) {
     val cli = parseArgs(args) ?: return
 
+    // Handle --set-default-city immediately and exit
+    if (cli.setDefaultCity != null) {
+        saveDefaultCity(cli.setDefaultCity)
+        println("✓ Default city set to: ${cli.setDefaultCity}")
+        return
+    }
+
     val json   = Json { ignoreUnknownKeys = true }
     val client = HttpClient(Curl) {
         install(ContentNegotiation) { json(json) }
     }
 
-    // Resolve location — geocode a custom city, or fall back to Bergen, Norway
+    // Resolve location: --city flag > saved default > hardcoded Bergen
     val cityName: String
     val lat: Double
     val lon: Double
 
-    if (cli.cityQuery != null) {
+    val cityQuery = cli.cityQuery ?: readDefaultCity()
+
+    if (cityQuery != null) {
         val result = try {
-            geocodeCity(client, json, cli.cityQuery)
+            geocodeCity(client, json, cityQuery)
         } catch (e: Exception) {
             err("Geocoding error: ${e.message}")
             client.close()
@@ -39,7 +48,7 @@ fun main(args: Array<String>) {
         }
 
         if (result == null) {
-            err("City not found: '${cli.cityQuery}'")
+            err("City not found: '$cityQuery'")
             client.close()
             return
         }
