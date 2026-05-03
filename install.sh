@@ -46,15 +46,14 @@ DOWNLOAD_URL=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest"
 # ── Download & install ────────────────────────────────────────────────────────
 mkdir -p "$INSTALL_DIR"
 info "Downloading binary..."
-TMP_BIN="$(mktemp)"
-curl -fsSL "$DOWNLOAD_URL" -o "$TMP_BIN"
-chmod +x "$TMP_BIN"
 
 if [ "$OS" = "Darwin" ]; then
     info "Installing to $INSTALL_DIR (requires sudo)..."
-    sudo mv "$TMP_BIN" "$INSTALL_DIR/$BINARY_NAME"
+    sudo curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
+    sudo chmod +x "$INSTALL_DIR/$BINARY_NAME"
 else
-    mv "$TMP_BIN" "$INSTALL_DIR/$BINARY_NAME"
+    curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
+    chmod +x "$INSTALL_DIR/$BINARY_NAME"
 fi
 
 if [ "$OS" = "Linux" ] && ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
