@@ -62,10 +62,17 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build
+        shell: bash
         run: ./gradlew linkWeatherReleaseExecutableMingwX64 --no-daemon
       - name: Rename binary
-        shell: bash
-        run: cp build/bin/mingwX64/weatherReleaseExecutable/weather.exe weather-windows-x64.exe
+        shell: pwsh
+        run: |
+          $src = "build\bin\mingwX64\weatherReleaseExecutable\weather.exe"
+          if (!(Test-Path $src)) {
+            Get-ChildItem -Recurse build\bin\ -ErrorAction SilentlyContinue
+            throw "Binary not found at $src"
+          }
+          Copy-Item $src weather-windows-x64.exe
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
