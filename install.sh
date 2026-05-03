@@ -3,7 +3,6 @@
 set -euo pipefail
 
 REPO="bardsoleim/weather-cli"
-INSTALL_DIR="$HOME/.local/bin"
 BINARY_NAME="weather"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; BOLD='\033[1m'; RESET='\033[0m'
@@ -23,12 +22,14 @@ case "$OS" in
       x86_64) ASSET="weather-linux-x64" ;;
       *) die "Unsupported Linux architecture: $ARCH (only x86_64 is supported)" ;;
     esac
+    INSTALL_DIR="$HOME/.local/bin"
     ;;
   Darwin)
     case "$ARCH" in
-      arm64)   ASSET="weather-macos-arm64" ;;
+      arm64) ASSET="weather-macos-arm64" ;;
       *) die "Unsupported macOS architecture: $ARCH (only Apple Silicon is supported)" ;;
     esac
+    INSTALL_DIR="/usr/local/bin"
     ;;
   *) die "Unsupported OS: $OS (only Linux and macOS are supported)" ;;
 esac
@@ -48,7 +49,7 @@ info "Downloading binary..."
 curl -fsSL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$BINARY_NAME"
 chmod +x "$INSTALL_DIR/$BINARY_NAME"
 
-if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
+if [ "$OS" = "Linux" ] && ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
     echo ""
     echo -e "${BOLD}Note:${RESET} $INSTALL_DIR is not in your PATH."
     echo "  bash/zsh → add to ~/.bashrc or ~/.zshrc:"
