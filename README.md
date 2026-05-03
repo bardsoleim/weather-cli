@@ -10,22 +10,32 @@ No API key needed.
 
 ## Install
 
+**Linux / macOS**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install.sh | bash
 ```
 
-The script will:
-1. Download the latest pre-built binary from GitHub Releases
-2. Install it to `~/.local/bin/weather`
+**Windows** (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/install.ps1 | iex
+```
 
-**Requirements:** `curl` (pre-installed on macOS; almost certainly already on Linux)
+The script will download the latest pre-built binary and install it to `~/.local/bin/weather` (Linux/macOS) or `%USERPROFILE%\.local\bin\weather.exe` (Windows).
+
+**Requirements:** `curl` (Linux/macOS) or PowerShell 5+ (Windows, pre-installed)
 
 ---
 
 ## Uninstall
 
+**Linux / macOS**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninstall.sh | bash
+```
+
+**Windows** (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/bardsoleim/weather-cli/main/uninstall.ps1 | iex
 ```
 
 ---

@@ -30,16 +30,32 @@ kotlin {
         }
     }
 
+    mingwX64() {
+        binaries {
+            executable("weather") {
+                entryPoint = "weathercli.main"
+            }
+        }
+    }
+
     sourceSets {
         val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-core:3.1.3")
-                implementation("io.ktor:ktor-client-curl:3.1.3")
                 implementation("io.ktor:ktor-client-content-negotiation:3.1.3")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
             }
+        }
+        val linuxMain by getting {
+            dependencies { implementation("io.ktor:ktor-client-curl:3.1.3") }
+        }
+        val macosMain by getting {
+            dependencies { implementation("io.ktor:ktor-client-curl:3.1.3") }
+        }
+        val mingwMain by getting {
+            dependencies { implementation("io.ktor:ktor-client-winhttp:3.1.3") }
         }
     }
 }

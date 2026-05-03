@@ -1,7 +1,6 @@
 package weathercli
 
 import io.ktor.client.*
-import io.ktor.client.engine.curl.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -27,9 +26,7 @@ fun main(args: Array<String>) {
     }
 
     val json   = Json { ignoreUnknownKeys = true }
-    val client = HttpClient(Curl) {
-        install(ContentNegotiation) { json(json) }
-    }
+    val client = buildHttpClient(json)
 
     // Resolve location: --city flag > saved default > hardcoded Bergen
     val cityName: String

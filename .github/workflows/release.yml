@@ -51,3 +51,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  build-windows-x64:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Build
+        run: ./gradlew linkWeatherReleaseExecutableMingwX64 --no-daemon
+      - name: Rename binary
+        shell: bash
+        run: cp build/bin/mingwX64/weatherReleaseExecutable/weather.exe weather-windows-x64.exe
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: weather-windows-x64.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
